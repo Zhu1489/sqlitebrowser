@@ -14,13 +14,13 @@ jobs:
     name: Analyze
     runs-on: ${{ (matrix.language == 'swift' && 'macos-latest') || 'ubuntu-latest' }}
     timeout-minutes: ${{ (matrix.language == 'swift' && 120) || 360 }}
-    permissions:
+    permissions: action 
       actions: read
       contents: read
       security-events: write
 
     strategy:
-      fail-fast: false
+      fail-fast: true 
       matrix:
         language: ["cpp", "python"]
         # CodeQL supports [ 'cpp', 'csharp', 'go', 'java', 'javascript', 'python', 'ruby' ]
@@ -56,8 +56,7 @@ jobs:
           mkdir build && cd build
           cmake -Dsqlcipher=1 -Wno-dev ..
           make
-          sudo make install
-
+          
       # Autobuild attempts to build any compiled languages (C/C++, C#, Go, Java, or Swift).
       # If this step fails, then you should remove it and run the build manually (see below)
       - if: matrix.language != 'cpp'
